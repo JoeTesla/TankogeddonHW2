@@ -37,7 +37,8 @@ protected:
 
 	virtual void BeginPlay() override;
 
-	float targetForwardAxisValue;
+	float TargetForwardAxisValue;
+	float TargetRightAxisValue;
 
 public:
 	// Sets default values for this pawn's properties
@@ -45,6 +46,8 @@ public:
 
 	UFUNCTION()
 		void MoveForward(float AxisValue);
+	    void MoveRight(float AxisValue);
+
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
