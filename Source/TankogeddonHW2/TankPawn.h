@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "Cannon.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
 #include "TankPawn.generated.h"
@@ -9,6 +10,9 @@
 class UStaticMeshComponent;
 class UCameraComponent;
 class USpringArmComponent;
+class ATankPlayerController;
+class ACannon;
+
 
 UCLASS()
 class TANKOGEDDONHW2_API ATankPawn : public APawn
@@ -35,10 +39,30 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Movement|Speed")
 		float RotationSpeed = 100.f;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Movement|Speed")
+		float InterpolationKey = 0.1f;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Turret|Speed")
+		float TurretRotationInterpolationKey = 0.5f;
+
+	UPROPERTY()
+		ATankPlayerController* TankController;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category = "Components")
+		UArrowComponent* CannonSetupPoint;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Turret|Cannon")
+		TSubclassOf<ACannon> CannonClass;
+
+	UPROPERTY()
+		ACannon* Cannon;
+
 	virtual void BeginPlay() override;
+	void SetupCannon();
 
 	float TargetForwardAxisValue;
 	float TargetRightAxisValue;
+	float CurrentRightAxisValue;
 
 public:
 	// Sets default values for this pawn's properties
@@ -46,7 +70,9 @@ public:
 
 	UFUNCTION()
 		void MoveForward(float AxisValue);
-	    void MoveRight(float AxisValue);
+		void RotateRight(float AxisValue);
+		void Fire();
+
 
 
 	// Called every frame
