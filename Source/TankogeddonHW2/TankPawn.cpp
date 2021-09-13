@@ -92,13 +92,15 @@ void ATankPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	CurrentForwardAxisValue = FMath::FInterpTo(CurrentForwardAxisValue, TargetForwardAxisValue, DeltaTime, MovementSmootheness);
+
 	FVector CurrentLocation = GetActorLocation();
 	FVector ForwardVector = GetActorForwardVector();
-	FVector RightVector = GetActorRightVector();
-	FVector MovePosition = CurrentLocation + ForwardVector * TargetForwardAxisValue * MoveSpeed * DeltaTime;
+	FVector MovePosition = CurrentLocation + ForwardVector * CurrentForwardAxisValue * MoveSpeed * DeltaTime;
+
 	SetActorLocation(MovePosition, true);
 
-	CurrentRightAxisValue = FMath::Lerp(CurrentRightAxisValue, TargetRightAxisValue, InterpolationKey);
+	CurrentRightAxisValue = FMath::FInterpTo(CurrentRightAxisValue, TargetRightAxisValue, DeltaTime, RotationSmootheness);
 
 	UE_LOG(LogTemp, Warning, TEXT("CurrentRightAxisValue = %f TargetRightAxisValue = %f"), CurrentRightAxisValue, TargetRightAxisValue);
 
@@ -118,6 +120,6 @@ void ATankPawn::Tick(float DeltaTime)
 		FRotator currRotation = TurretMesh->GetComponentRotation();
 		targetRotation.Pitch = currRotation.Pitch;
 		targetRotation.Roll = currRotation.Roll;
-		TurretMesh->SetWorldRotation(FMath::Lerp(currRotation, targetRotation, TurretRotationInterpolationKey));
+		TurretMesh->SetWorldRotation(FMath::RInterpConstantTo(currRotation, targetRotation, DeltaTime, TurretRotationSpeed));
 	}
 }

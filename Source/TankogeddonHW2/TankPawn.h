@@ -37,13 +37,16 @@ protected:
 		float MoveSpeed = 100.f;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Movement|Speed")
+		float MovementSmootheness = 0.1f;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Movement|Speed")
 		float RotationSpeed = 100.f;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Movement|Speed")
-		float InterpolationKey = 0.1f;
+		float /*InterpolationKey*/ RotationSmootheness = 0.1f;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Turret|Speed")
-		float TurretRotationInterpolationKey = 0.5f;
+		float TurretRotationSpeed = 0.5f;
 
 	UPROPERTY()
 		ATankPlayerController* TankController;
@@ -60,9 +63,10 @@ protected:
 	virtual void BeginPlay() override;
 	void SetupCannon();
 
-	float TargetForwardAxisValue;
-	float TargetRightAxisValue;
-	float CurrentRightAxisValue;
+	float TargetForwardAxisValue = 0.f;
+	float CurrentForwardAxisValue = 0.f;
+	float TargetRightAxisValue = 0.f;
+	float CurrentRightAxisValue = 0.f;
 
 public:
 	// Sets default values for this pawn's properties
