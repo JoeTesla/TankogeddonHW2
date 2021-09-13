@@ -9,8 +9,8 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "Components/ArrowComponent.h"
 
-//DECLARE_LOG_CATEGORY_EXTERN(Tankogeddon, All, All);
-//DEFINE_LOG_CATEGORY(Tankogeddon);
+//DECLARE_LOG_CATEGORY_EXTERN(LogTankogeddon, All, All);
+//DEFINE_LOG_CATEGORY(LogTankogeddon);
 
 // Sets default values
 ATankPawn::ATankPawn()

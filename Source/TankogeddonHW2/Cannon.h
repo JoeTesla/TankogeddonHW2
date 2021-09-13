@@ -28,6 +28,9 @@ protected:
 		float FireRange = 1000;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Fire params")
+		int32 MaxAmmo = 10;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Fire params")
 		float FireDamage = 1;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Fire params")
@@ -58,6 +61,8 @@ protected:
 	virtual void BeginPlay() override;
 
 	void Reload();
+
+	int32 NumAmmo = 0;
 
 public:	
 	// Called every frame
