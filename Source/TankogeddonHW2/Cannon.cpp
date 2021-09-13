@@ -25,11 +25,11 @@ ACannon::ACannon()
 
 void ACannon::Fire()
 {
-	if (!ReadyToFire)
+	if (!bReadyToFire)
 	{
 		return;
 	}
-	ReadyToFire = false;
+	bReadyToFire = false;
 
 	if (Type == ECannonType::FireProjectile)
 	{
@@ -43,14 +43,40 @@ void ACannon::Fire()
 	GetWorld()->GetTimerManager().SetTimer(ReloadTimerHandle, this, &ACannon::Reload, 1 / FireRate, false);
 }
 
-bool ACannon::IsReadyToFire()
+void ACannon::FireSpecial()
 {
-	return ReadyToFire;
+	if (!bHasSpecialFire || !bReadyToFire)
+	{
+		return;
+	}
+
+	bReadyToFire = false;
+
+	if (Type == ECannonType::FireProjectile)
+	{
+		GEngine->AddOnScreenDebugMessage(10, 1, FColor::Green, "Fire special - projectile");
+	}
+	else
+	{
+		GEngine->AddOnScreenDebugMessage(10, 1, FColor::Green, "Fire special - trace");
+	}
+
+	GetWorld()->GetTimerManager().SetTimer(ReloadTimerHandle, this, &ACannon::Reload, 1.f / FireRate, false);
+}
+
+bool ACannon::IsReadyToFire() const
+{
+	return bReadyToFire;
+}
+
+bool ACannon::HasSpecialFire() const
+{
+	return bHasSpecialFire;
 }
 
 void ACannon::Reload()
 {
-	ReadyToFire = true;
+	bReadyToFire = true;
 }
 
 

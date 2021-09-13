@@ -26,15 +26,19 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Fire params")
 		float FireRange = 1000;
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Fire params")
 		float FireDamage = 1;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Fire params")
+		bool bHasSpecialFire = false;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Fire params")
 		ECannonType Type = ECannonType::FireProjectile;
 
 	FTimerHandle ReloadTimerHandle;
 
-	bool ReadyToFire = false;
+	bool bReadyToFire = false;
 	
 public:	
 	// Sets default values for this actor's properties
@@ -42,7 +46,12 @@ public:
 
 	void Fire();
 
-	bool IsReadyToFire();
+	void FireSpecial();
+
+	bool IsReadyToFire() const;
+
+	bool HasSpecialFire() const;
+
 
 protected:
 	// Called when the game starts or when spawned
