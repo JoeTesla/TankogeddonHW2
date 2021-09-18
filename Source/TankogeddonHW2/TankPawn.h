@@ -12,6 +12,7 @@ class UCameraComponent;
 class USpringArmComponent;
 class ATankPlayerController;
 class ACannon;
+class UArrowComponent;
 
 
 UCLASS()

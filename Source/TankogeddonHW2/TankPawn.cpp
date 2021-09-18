@@ -6,8 +6,12 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "TankPlayerController.h"
+#include <Math/UnrealMathUtility.h>
+
+#include "TankogeddonHW2.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Components/ArrowComponent.h"
+#include "Cannon.h"
 
 //DECLARE_LOG_CATEGORY_EXTERN(LogTankogeddon, All, All);
 //DEFINE_LOG_CATEGORY(LogTankogeddon);
@@ -62,6 +66,7 @@ void ATankPawn::SetupCannon()
 	if (Cannon)
 	{
 		Cannon->Destroy();
+		Cannon = nullptr;
 	}
 
 	FActorSpawnParameters params;
