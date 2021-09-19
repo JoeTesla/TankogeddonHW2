@@ -62,7 +62,6 @@ protected:
 		ACannon* Cannon;
 
 	virtual void BeginPlay() override;
-	void SetupCannon();
 
 	float TargetForwardAxisValue = 0.f;
 	float CurrentForwardAxisValue = 0.f;
@@ -78,6 +77,10 @@ public:
 		void RotateRight(float AxisValue);
 		void Fire();
 		void FireSpecial();
+		void SetupCannon();
+
+		UFUNCTION()
+			void SetupCannon(TSubclassOf<ACannon> InCannonClass);
 
 
 

@@ -62,7 +62,7 @@ void ACannon::FireSpecial()
 	}
 
 	GetWorld()->GetTimerManager().SetTimer(ReloadTimerHandle, this, &ACannon::Reload, 1.f / FireRate, false);
-	//UE_LOG(LogTankogeddon, Log, TEXT("FireSpecial! Ammo left: %d"), NumAmmo);
+	UE_LOG(LogTemp, Log, TEXT("FireSpecial! Ammo left: %d"), NumAmmo);
 }
 
 bool ACannon::IsReadyToFire() const
