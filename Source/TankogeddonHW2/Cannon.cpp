@@ -6,6 +6,8 @@
 #include "TimerManager.h"
 #include "Engine/Engine.h"
 #include "TankogeddonHW2.h"
+#include "Projectile.h"
+#include <DrawDebugHelpers.h>
 
 #include "TimerManager.h"
 #include "Engine/World.h"
@@ -60,7 +62,7 @@ void ACannon::FireSpecial()
 	}
 
 	GetWorld()->GetTimerManager().SetTimer(ReloadTimerHandle, this, &ACannon::Reload, 1.f / FireRate, false);
-	//UE_LOG(LogTankogeddon, Log, TEXT("FireSpecial! Ammo left: %d"), NumAmmo);
+	UE_LOG(LogTemp, Log, TEXT("FireSpecial! Ammo left: %d"), NumAmmo);
 }
 
 bool ACannon::IsReadyToFire() const
@@ -110,10 +112,37 @@ void ACannon::Shot()
 		if (Type == ECannonType::FireProjectile)
 		{
 			GEngine->AddOnScreenDebugMessage(INDEX_NONE, 1, FColor::Green, TEXT("Fire - projectile"));
+
+
+			AProjectile* Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileClass, ProjectileSpawnPoint->GetComponentLocation(), ProjectileSpawnPoint->GetComponentRotation());
+			if (Projectile)
+			{
+				Projectile->Start();
+			}
 		}
 		else
 		{
 			GEngine->AddOnScreenDebugMessage(INDEX_NONE, 1, FColor::Green, TEXT("Fire - trace"));
+
+			FHitResult HitResult;
+			FCollisionQueryParams TraceParams = FCollisionQueryParams(FName(TEXT("FireTrace")), true, this);
+			TraceParams.bTraceComplex = true;
+			TraceParams.bReturnPhysicalMaterial = false;
+
+			FVector Start = ProjectileSpawnPoint->GetComponentLocation();
+			FVector End = ProjectileSpawnPoint->GetForwardVector() * FireRange + Start;
+			if (GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, ECollisionChannel::ECC_Visibility, TraceParams))
+			{
+				DrawDebugLine(GetWorld(), Start, HitResult.Location, FColor::Red, false, 0.5f, 0, 5);
+				if (HitResult.Actor.Get())
+				{
+					HitResult.Actor.Get()->Destroy();
+				}
+			}
+			else
+			{
+				DrawDebugLine(GetWorld(), Start, End, FColor::Red, false, 0.5f, 0, 5);
+			}
 		}
 
 	if (--ShotsLeft > 0)
